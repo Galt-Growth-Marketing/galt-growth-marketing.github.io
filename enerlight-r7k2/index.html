@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Radar Enerlight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0B0B0C; --bg2:#121214; --card:#161618; --line:#26262A; --line2:#34343A;
+  --tx:#FFFFFF; --tx2:#A1A1AA; --tx3:#71717A;
+  --blue:#3B82F6; --blue-soft:rgba(59,130,246,.14);
+  --red:#E5484D; --red-soft:rgba(229,72,77,.14);
+  --silver:linear-gradient(180deg,#F4F4F5 0%,#A1A1AA 100%);
+  --sans:"Plus Jakarta Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--sans);font-size:15px;line-height:1.55;
+  background-image:radial-gradient(900px 520px at 50% -120px,rgba(255,255,255,.07),transparent 70%);}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px;padding-block:40px 64px;display:flex;flex-direction:column;gap:88px}
+h1,h2,h3{margin:0;text-wrap:balance;letter-spacing:-.025em}
+p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3)}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);font-size:12.5px;color:var(--tx2)}
+.pill i{width:6px;height:6px;border-radius:50%;background:var(--blue);box-shadow:0 0 10px var(--blue)}
+.metal{background:var(--silver);-webkit-background-clip:text;background-clip:text;color:transparent}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* hero */
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px;padding-top:24px}
+.hero h1{font-size:clamp(34px,5.6vw,60px);font-weight:800;line-height:1.05;max-width:17ch}
+.hero .lead{color:var(--tx2);font-size:17px;max-width:62ch}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;width:100%;margin-top:18px}
+.kpi{background:var(--bg2);padding:22px 20px;display:flex;flex-direction:column;gap:6px;text-align:left}
+.kpi b{font-family:var(--mono);font-weight:500;font-size:32px;letter-spacing:-.02em;line-height:1}
+.kpi span{color:var(--tx2);font-size:13px}
+.kpi.blue b{color:var(--blue)} .kpi.red b{color:var(--red)}
+
+/* section head */
+.sh{display:flex;flex-direction:column;gap:10px;max-width:70ch}
+.sh h2{font-size:clamp(26px,3.4vw,36px);font-weight:700}
+.sh p{color:var(--tx2)}
+
+/* radar */
+.radar{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:40px;align-items:center}
+.radar svg{width:100%;max-width:520px;height:auto;display:block;margin:0 auto}
+.legend{display:flex;flex-direction:column;gap:14px}
+.lg{display:flex;gap:12px;align-items:flex-start;color:var(--tx2);font-size:14px}
+.lg .dot{flex:none;width:12px;height:12px;border-radius:50%;margin-top:5px}
+.crit{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.crit div{border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13.5px;color:var(--tx2)}
+.crit div b{display:block;color:var(--tx);font-weight:600;font-size:14px;margin-bottom:2px}
+
+/* accounts */
+.accts{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.acct{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:18px}
+.acct-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.acct h3{font-size:26px;font-weight:700}
+.meta{color:var(--tx3);font-size:13px;margin-top:4px}
+.chip{flex:none;font-size:12px;font-weight:600;padding:5px 10px;border-radius:999px;white-space:nowrap}
+.chip.alta{color:var(--red);background:var(--red-soft)}
+.chip.media{color:var(--tx2);background:rgba(255,255,255,.06)}
+.inv{border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:4px}
+.inv b{font-family:var(--mono);font-weight:500;font-size:22px;letter-spacing:-.01em}
+.inv span{color:var(--tx2);font-size:14px}
+.why{color:var(--tx2);font-size:14.5px}
+.dec{border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:10px}
+.dec-h{display:flex;justify-content:space-between;align-items:baseline}
+.dec-h b{font-family:var(--mono);font-weight:500;color:var(--blue);font-size:20px}
+.bar{display:flex;height:8px;border-radius:4px;overflow:hidden;gap:2px}
+.bar span{display:block;height:100%}
+.lv{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--tx3)}
+.lv i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;vertical-align:0}
+.roles{display:flex;flex-wrap:wrap;gap:6px}
+.people{border-top:1px solid var(--line);padding-top:4px}
+.people summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-weight:600;font-size:14px;color:var(--tx)}
+.people summary::-webkit-details-marker{display:none}
+.people summary .arr{font-family:var(--mono);color:var(--blue);font-size:13px;transition:transform .2s}
+.people[open] summary .arr{transform:rotate(90deg)}
+.people summary:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
+.plist{list-style:none;margin:0;padding:0 0 6px;display:flex;flex-direction:column}
+.plist li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:10px 0;border-top:1px dashed var(--line2)}
+.plist li b{font-weight:600;font-size:14px}
+.plist li span{color:var(--tx2);font-size:13px;grid-column:1}
+.plist li em{font-style:normal;font-family:var(--mono);font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;grid-column:2;grid-row:1}
+.roles span{font-size:12.5px;color:var(--tx2);border:1px solid var(--line2);border-radius:6px;padding:3px 8px}
+
+/* universe */
+.uni-top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.count{display:flex;align-items:center;gap:14px;border:1px solid var(--line2);border-radius:12px;padding:12px 16px}
+.count b{font-family:var(--mono);font-weight:500;font-size:26px}
+.count b em{font-style:normal;color:var(--red)}
+.count span{font-size:13px;color:var(--tx2);max-width:18ch;line-height:1.35}
+.verts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.vt{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:6px}
+.vt b{font-family:var(--mono);font-weight:500;font-size:28px}
+.vt strong{font-size:15px;font-weight:600}
+.vt span{font-size:13px;color:var(--tx3)}
+.locked{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.lk{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.lk .tag{font-size:11.5px;color:var(--tx3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em}
+.redact{display:flex;flex-direction:column;gap:6px}
+.redact i{display:block;height:11px;border-radius:3px;background:linear-gradient(90deg,#2A2A2F,#3A3A41,#2A2A2F);filter:blur(1.5px)}
+.lk .loc{font-size:13px;color:var(--tx2)}
+.lk .st{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--tx3);border-top:1px dashed var(--line2);padding-top:10px}
+.lock{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;background:rgba(255,255,255,.05);border:1px solid var(--line2)}
+.lock svg{width:13px;height:13px}
+.note{font-size:13px;color:var(--tx3);max-width:80ch}
+
+/* next */
+.next{border:1px solid var(--line2);border-radius:18px;padding:36px;background:radial-gradient(600px 240px at 0% 0%,rgba(59,130,246,.10),transparent 70%),var(--bg2);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:36px}
+.next h2{font-size:clamp(24px,3vw,32px);font-weight:700}
+.next .sub{color:var(--tx2);margin-top:12px}
+.steps{display:flex;flex-direction:column;gap:14px}
+.step{display:flex;gap:14px;align-items:flex-start}
+.step .n{flex:none;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-family:var(--mono);font-size:13px;background:rgba(255,255,255,.06);color:var(--tx)}
+.step b{display:block;font-weight:600}
+.step span{color:var(--tx2);font-size:14px}
+.cta{display:inline-flex;margin-top:22px;padding:12px 18px;border-radius:10px;background:linear-gradient(180deg,#FFFFFF,#D4D4D8);color:#0B0B0C;font-weight:700;font-size:14px;box-shadow:0 0 24px rgba(255,255,255,.18)}
+footer{border-top:1px solid var(--line);padding-top:22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--tx3);font-size:12.5px}
+
+@media (max-width:900px){
+  .radar,.next{grid-template-columns:1fr}
+  .accts{grid-template-columns:1fr}
+  .locked{grid-template-columns:repeat(2,1fr)}
+  .verts{grid-template-columns:repeat(2,1fr)}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:480px){
+  .locked,.verts,.crit{grid-template-columns:1fr}
+  .acct{padding:20px}
+  .next{padding:24px}
+  .kpi b{font-size:26px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .ping{animation:ping 2.8s ease-out infinite;transform-origin:center;transform-box:fill-box}
+  @keyframes ping{0%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(3.2)}}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <span class="pill"><i></i>Galt Growth · Mapeamento de contas-alvo · Enerlight</span>
+    <h1>Obras em expansão a até <span class="metal">300 km</span> de São José do Rio Preto</h1>
+    <p class="lead">Amostra preparada para a Enerlight: indústrias e desenvolvedores logísticos com investimento anunciado em ampliação, e as pessoas que especificam iluminação dentro de cada um.</p>
+    <div class="kpis">
+      <div class="kpi"><b class="num">4</b><span>contas liberadas nesta amostra</span></div>
+      <div class="kpi blue"><b class="num">35</b><span>decisores mapeados nessas contas</span></div>
+      <div class="kpi"><b class="num">R$ 1,7 bi</b><span>em investimentos anunciados por essas contas</span></div>
+      <div class="kpi red"><b class="num">135+</b><span>contas no perfil estimadas no raio</span></div>
+    </div>
+  </header>
+
+  <section class="radar" aria-labelledby="r-h">
+    <svg viewBox="-170 -170 340 340" role="img" aria-label="Mapa do raio de 300 km a partir de São José do Rio Preto, com as contas liberadas e os polos industriais estimados">
+      <defs>
+        <radialGradient id="rg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#3B82F6" stop-opacity=".10"/><stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/></radialGradient>
+      </defs>
+      <circle r="140" fill="url(#rg)" stroke="#34343A" stroke-width="1"/>
+      <circle r="93.3" fill="none" stroke="#26262A" stroke-dasharray="2 4"/>
+      <circle r="46.7" fill="none" stroke="#26262A" stroke-dasharray="2 4"/>
+      <line x1="-150" y1="0" x2="150" y2="0" stroke="#1F1F23"/><line x1="0" y1="-150" x2="0" y2="150" stroke="#1F1F23"/>
+      <g font-family="IBM Plex Mono, monospace" font-size="7" fill="#71717A">
+        <text x="3" y="-142">300 km</text><text x="3" y="-95">200 km</text><text x="3" y="-49">100 km</text>
+      </g>
+      <!-- polos estimados (cinza) -->
+      <g fill="#52525B">
+        <circle cx="67.2" cy="16.6" r="3"/><circle cx="76" cy="18.7" r="3"/><circle cx="39.3" cy="-13.6" r="3"/>
+        <circle cx="19.7" cy="16.5" r="3"/><circle cx="43.6" cy="6.7" r="3"/><circle cx="-46.5" cy="24.3" r="3"/>
+        <circle cx="49" cy="40.6" r="3"/><circle cx="72.1" cy="62.1" r="3"/><circle cx="95.8" cy="-14.6" r="3"/>
+        <circle cx="39.8" cy="76.5" r="3"/><circle cx="15.4" cy="77.5" r="3"/><circle cx="-18.1" cy="44.2" r="3"/>
+        <circle cx="-28.6" cy="-20.7" r="3"/><circle cx="51.2" cy="22.5" r="3"/>
+      </g>
+      <!-- contas liberadas (azul) -->
+      <g fill="#3B82F6">
+        <circle cx="0" cy="0" r="5.5" class="ping" opacity=".6"/>
+        <circle cx="0" cy="0" r="5"/>
+        <circle cx="-51" cy="20.2" r="4.5"/><circle cx="-47" cy="23.5" r="4.5"/>
+        <circle cx="58.2" cy="50" r="4.5"/><circle cx="96.6" cy="79.7" r="4.5"/>
+      </g>
+      <g font-family="Plus Jakarta Sans, sans-serif" font-size="8.5" font-weight="600" fill="#FFFFFF">
+        <text x="8" y="-6">LOG CP · Rio Preto</text>
+        <text x="-92" y="12">Nestlé · Carmeuse</text><text x="-92" y="21" font-weight="400" fill="#A1A1AA" font-size="7.5">Araçatuba</text>
+        <text x="64" y="47">Lupo</text><text x="64" y="55" font-weight="400" fill="#A1A1AA" font-size="7.5">Araraquara</text>
+        <text x="103" y="82">Nestlé</text><text x="103" y="90" font-weight="400" fill="#A1A1AA" font-size="7.5">Araras</text>
+      </g>
+    </svg>
+    <div class="legend">
+      <div class="sh"><span class="eyebrow">Raio de atuação</span><h2 id="r-h">Onde estão as oportunidades</h2></div>
+      <div class="lg"><span class="dot" style="background:var(--blue)"></span><span><b style="color:var(--tx)">Contas liberadas.</b> Empresas com expansão anunciada, já qualificadas e com decisores mapeados.</span></div>
+      <div class="lg"><span class="dot" style="background:#52525B"></span><span><b style="color:var(--tx)">Polos com contas estimadas.</b> Sertãozinho, Ribeirão Preto, Barretos, Catanduva, Matão, São Carlos, Birigui, Franca, Bauru e outros polos industriais da região.</span></div>
+      <div class="crit">
+        <div><b>Grande porte</b>de preferência multinacional, com várias unidades</div>
+        <div><b>Engenharia própria</b>e diretoria estruturada</div>
+        <div><b>Pé-direito alto</b>ou operação contínua e multiturno</div>
+        <div><b>Expansão em curso</b>nova planta, ampliação fabril ou novo galpão</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:28px" aria-labelledby="a-h">
+    <div class="sh"><span class="eyebrow">Amostra liberada · 4 contas</span><h2 id="a-h">Contas-alvo com expansão anunciada</h2><p>Para cada conta: o que ela está expandindo, por que faz sentido para a luminária Enerlight e quem decide lá dentro. As pessoas mapeadas são de engenharia, manutenção, projetos, obras e operações. Compras não é o ponto de entrada.</p></div>
+    <div class="accts">
+
+      <article class="acct">
+        <div class="acct-top"><div><span class="eyebrow">Alimentos</span><h3>Nestlé</h3><p class="meta">Araçatuba/SP · 118 km  ·  Araras/SP · 268 km</p></div><span class="chip alta">Prioridade alta</span></div>
+        <div class="inv"><b>R$ 540 mi + R$ 1 bi</b><span>Modernização e aumento de capacidade em Araçatuba (2025–2028) e nova linha de café solúvel em Araras, com obras até 2028.</span></div>
+        <p class="why">Multinacional suíça com dois projetos ao mesmo tempo dentro do raio. Araçatuba é a maior fábrica da Nestlé no Brasil em faturamento, com cerca de 800 colaboradores e operação contínua. Cada planta tem engenharia e manutenção próprias.</p>
+        <div class="dec">
+          <div class="dec-h"><span class="eyebrow">Decisores mapeados</span><b>9</b></div>
+          <div class="bar"><span style="flex:7;background:#E4E4E7"></span><span style="flex:2;background:#A1A1AA"></span></div>
+          <div class="lv"><span><i style="background:#E4E4E7"></i>7 gerência</span><span><i style="background:#A1A1AA"></i>2 coordenação</span></div>
+          <div class="roles"><span>Gerente de Engenharia</span><span>Gerente de Manutenção</span><span>Engineering Manager</span><span>Gerente de Projetos de Engenharia</span><span>Coordenador de Manutenção</span></div>
+        </div>
+        <details class="people"><summary>Ver os 9 decisores<span class="arr">›</span></summary><ul class="plist"><li><b>André Nascimento</b><em>Gerência</em><span>Gerente de Engenharia (Araçatuba)</span></li><li><b>Paulo Afonso dos Santos Júnior</b><em>Gerência</em><span>Gerente de Manutenção (Araçatuba)</span></li><li><b>Welton Santos</b><em>Gerência</em><span>Gerente de Manutenção Jr (Araçatuba)</span></li><li><b>Pedro Augusto Claudino da Silva</b><em>Coordenação</em><span>Coordenador de Manutenção (Araçatuba)</span></li><li><b>Josue Marques Barcellos</b><em>Gerência</em><span>Gerente de Engenharia (Araras)</span></li><li><b>Dener Sanitá</b><em>Gerência</em><span>Engineering Manager (Araras)</span></li><li><b>Luan Oliveira</b><em>Coordenação</em><span>Coordenador de Processos (Araras)</span></li><li><b>Luiz Ângelo Gomes Leite</b><em>Gerência</em><span>Gerente de Engenharia e Manutenção</span></li><li><b>Tatiane Canali</b><em>Gerência</em><span>Gerente de Projetos de Engenharia</span></li></ul></details>
+        <div hidden>
+        </div>
+      </article>
+
+      <article class="acct">
+        <div class="acct-top"><div><span class="eyebrow">Logística</span><h3>LOG CP</h3><p class="meta">São José do Rio Preto/SP</p></div><span class="chip alta">Prioridade alta</span></div>
+        <div class="inv"><b>R$ 80 mi · 36,2 mil m²</b><span>Novo condomínio logístico em Rio Preto. O plano LOG 2 Milhões prevê mais de 2 milhões de m² de área locável até 2028.</span></div>
+        <p class="why">Desenvolvedora com obras recorrentes: cada novo condomínio é mais um projeto de iluminação em galpão de pé-direito alto. Um relacionamento abre a porta para vários empreendimentos, não para um só.</p>
+        <div class="dec">
+          <div class="dec-h"><span class="eyebrow">Decisores mapeados</span><b>10</b></div>
+          <div class="bar"><span style="flex:3;background:var(--blue)"></span><span style="flex:5;background:#E4E4E7"></span><span style="flex:2;background:#52525B"></span></div>
+          <div class="lv"><span><i style="background:var(--blue)"></i>3 diretoria</span><span><i style="background:#E4E4E7"></i>5 gerência</span><span><i style="background:#52525B"></i>2 supervisão</span></div>
+          <div class="roles"><span>Diretor Executivo de Operações</span><span>Diretor de Produção</span><span>Gerente Regional de Obras</span><span>Gerente de Projetos</span><span>Gerente Predial</span></div>
+        </div>
+        <details class="people"><summary>Ver os 10 decisores<span class="arr">›</span></summary><ul class="plist"><li><b>Marcio Siqueira</b><em>Diretoria</em><span>Diretor Executivo de Operações</span></li><li><b>Eudóxio Pontes</b><em>Diretoria</em><span>Diretor de Produção</span></li><li><b>Victor Gomide Guimarães</b><em>Gerência</em><span>Gerente Regional de Obras</span></li><li><b>Lucas Sodré</b><em>Gerência</em><span>Gerente de Projetos</span></li><li><b>Stefan Winters</b><em>Diretoria</em><span>Gestor Executivo de Desenvolvimento Imobiliário</span></li><li><b>Marcos Luis Ribeiro de Carvalho</b><em>Gerência</em><span>Gerente de Operações</span></li><li><b>Jordana Marta Vidigal Cardoso</b><em>Gerência</em><span>Gerente de Operações Especializadas</span></li><li><b>Alan Inácio</b><em>Gerência</em><span>Gerente Predial | Engenharia de Operações e Manutenção</span></li><li><b>Vanessa Andrade</b><em>Supervisão</em><span>Supervisora de Manutenção</span></li><li><b>Maicon Sulevan Oliveira</b><em>Supervisão</em><span>Supervisor de Operações (condomínios logísticos)</span></li></ul></details>
+        <div hidden>
+        </div>
+      </article>
+
+      <article class="acct">
+        <div class="acct-top"><div><span class="eyebrow">Têxtil</span><h3>Lupo</h3><p class="meta">Araraquara/SP · 164 km</p></div><span class="chip media">Prioridade média</span></div>
+        <div class="inv"><b>R$ 70 mi</b><span>Remodelação de áreas fabris, novos equipamentos e transferência da malharia do Ceará para a planta de Araraquara.</span></div>
+        <p class="why">Sede e principal polo industrial do grupo, que tem várias unidades no Brasil. Remodelar o chão de fábrica e receber uma nova operação abre espaço para rever o projeto de iluminação.</p>
+        <div class="dec">
+          <div class="dec-h"><span class="eyebrow">Decisores mapeados</span><b>10</b></div>
+          <div class="bar"><span style="flex:1;background:var(--blue)"></span><span style="flex:2;background:#E4E4E7"></span><span style="flex:1;background:#A1A1AA"></span><span style="flex:6;background:#52525B"></span></div>
+          <div class="lv"><span><i style="background:var(--blue)"></i>1 diretoria</span><span><i style="background:#E4E4E7"></i>2 gerência</span><span><i style="background:#A1A1AA"></i>1 coordenação</span><span><i style="background:#52525B"></i>6 supervisão</span></div>
+          <div class="roles"><span>Diretor Industrial</span><span>Gerente de Manutenção</span><span>Coordenador de Manutenção</span><span>Supervisor de Elétrica</span></div>
+        </div>
+        <details class="people"><summary>Ver os 10 decisores<span class="arr">›</span></summary><ul class="plist"><li><b>Vinicius Morbeck</b><em>Diretoria</em><span>Diretor Industrial e PCP</span></li><li><b>Hugo Barreto</b><em>Gerência</em><span>Gerente de Manutenção (Araraquara)</span></li><li><b>Adriel Fernando dos Santos</b><em>Gerência</em><span>Gerente de Manutenção (Araraquara)</span></li><li><b>Edison Luna</b><em>Coordenação</em><span>Coordenador de Manutenção (Araraquara)</span></li><li><b>Flavio Marin</b><em>Supervisão</em><span>Supervisor de Manutenção (Araraquara)</span></li><li><b>Maurilio Reis</b><em>Supervisão</em><span>Supervisor de Manutenção (Araraquara)</span></li><li><b>Elton Moreira</b><em>Supervisão</em><span>Supervisor de Manutenção (Araraquara)</span></li><li><b>Leandro Ribeiro</b><em>Supervisão</em><span>Supervisor de Manutenção (São Carlos)</span></li><li><b>Maria Letícia</b><em>Supervisão</em><span>Supervisora de Operações (Araraquara)</span></li><li><b>Valdberto Rodrigues</b><em>Supervisão</em><span>Supervisor de Elétrica/Eletrônica</span></li></ul></details>
+        <div hidden>
+        </div>
+      </article>
+
+      <article class="acct">
+        <div class="acct-top"><div><span class="eyebrow">Mineração e química</span><h3>Carmeuse Brasil</h3><p class="meta">Araçatuba/SP · 118 km</p></div><span class="chip media">Prioridade média</span></div>
+        <div class="inv"><b>50 mil m² de terreno</b><span>Nova fábrica: primeira fase com 6 mil m² construídos e mais duas plantas previstas em etapas futuras.</span></div>
+        <p class="why">Multinacional belga presente em mais de 20 países. Como a planta é nova, dá para entrar na especificação do projeto, antes de a compra virar disputa de preço. As próximas fases aumentam o potencial.</p>
+        <div class="dec">
+          <div class="dec-h"><span class="eyebrow">Decisores mapeados</span><b>6</b></div>
+          <div class="bar"><span style="flex:1;background:var(--blue)"></span><span style="flex:1;background:#E4E4E7"></span><span style="flex:3;background:#A1A1AA"></span><span style="flex:1;background:#52525B"></span></div>
+          <div class="lv"><span><i style="background:var(--blue)"></i>1 diretoria</span><span><i style="background:#E4E4E7"></i>1 gerência</span><span><i style="background:#A1A1AA"></i>3 coordenação e engenharia</span><span><i style="background:#52525B"></i>1 supervisão</span></div>
+          <div class="roles"><span>Plant Manager</span><span>Gerente Técnico</span><span>Coordenador de Engenharia e Projetos</span><span>Coordenador de Manutenção</span></div>
+        </div>
+        <details class="people"><summary>Ver os 6 decisores<span class="arr">›</span></summary><ul class="plist"><li><b>Luis Fernando Marostegan</b><em>Diretoria</em><span>Plant Manager (Matão/SP)</span></li><li><b>Vagner Ferreira</b><em>Gerência</em><span>Gerente Técnico</span></li><li><b>Jefferson Lupis</b><em>Coordenação</em><span>Coordenador de Engenharia, Projetos e Aplicações</span></li><li><b>Ary Junior</b><em>Especialista</em><span>Engenheiro Sênior de Projetos</span></li><li><b>Rodrigo Silva</b><em>Coordenação</em><span>Coordenador de Manutenção</span></li><li><b>Murilo Malaguti</b><em>Supervisão</em><span>Supervisor de Operações (Taquaritinga/SP)</span></li></ul></details>
+        <div hidden>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:28px" aria-labelledby="u-h">
+    <div class="uni-top">
+      <div class="sh"><span class="eyebrow">Universo estimado · ainda não liberado</span><h2 id="u-h">O que mais existe no raio de 300 km</h2><p>Estimativa da Galt com base nos polos industriais da região. As contas abaixo seguem o mesmo perfil da amostra. Nomes, sinais de expansão e decisores são levantados no mapeamento completo.</p></div>
+      <div class="count"><b class="num">4 <em>/ 135+</em></b><span>contas liberadas nesta amostra</span></div>
+    </div>
+
+    <div class="verts">
+      <div class="vt"><b class="num">40+</b><strong>Sucroenergético</strong><span>Usinas de açúcar e etanol · Sertãozinho, Catanduva, Araçatuba, Barretos</span></div>
+      <div class="vt"><b class="num">25+</b><strong>Metalmecânica e bens de capital</strong><span>Caldeiraria pesada e equipamentos · Sertãozinho, Ribeirão Preto, São Carlos</span></div>
+      <div class="vt"><b class="num">20+</b><strong>Suco de laranja e alimentos</strong><span>Processamento e envase · Matão, Araraquara, Bebedouro, Rio Preto</span></div>
+      <div class="vt"><b class="num">20+</b><strong>Logística e condomínios</strong><span>CDs e galpões · eixos Washington Luís, Anhanguera e BR-153</span></div>
+      <div class="vt"><b class="num">15+</b><strong>Frigoríficos e proteína</strong><span>Abate e processamento · Barretos, Rio Preto, Lins, Araçatuba</span></div>
+      <div class="vt"><b class="num">15+</b><strong>Calçados e têxtil</strong><span>Plantas de produção · Birigui, Franca, Jaú</span></div>
+    </div>
+
+    <div class="locked" aria-label="Exemplos de contas ainda bloqueadas">
+      <div class="lk"><span class="tag">Sucroenergético</span><div class="redact"><i style="width:82%"></i><i style="width:55%"></i></div><span class="loc">Sertãozinho · 148 km</span><div class="st"><span>Grande porte</span><span class="lock"><svg viewBox="0 0 16 16" fill="none" stroke="#A1A1AA" stroke-width="1.6"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2"/></svg></span></div></div>
+      <div class="lk"><span class="tag">Suco e alimentos</span><div class="redact"><i style="width:70%"></i><i style="width:48%"></i></div><span class="loc">Matão · 136 km</span><div class="st"><span>Operação contínua</span><span class="lock"><svg viewBox="0 0 16 16" fill="none" stroke="#A1A1AA" stroke-width="1.6"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2"/></svg></span></div></div>
+      <div class="lk"><span class="tag">Frigorífico</span><div class="redact"><i style="width:64%"></i><i style="width:40%"></i></div><span class="loc">Barretos · 89 km</span><div class="st"><span>Grande porte</span><span class="lock"><svg viewBox="0 0 16 16" fill="none" stroke="#A1A1AA" stroke-width="1.6"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2"/></svg></span></div></div>
+      <div class="lk"><span class="tag">Bens de capital</span><div class="redact"><i style="width:76%"></i><i style="width:52%"></i></div><span class="loc">Sertãozinho · 148 km</span><div class="st"><span>Grande porte</span><span class="lock"><svg viewBox="0 0 16 16" fill="none" stroke="#A1A1AA" stroke-width="1.6"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2"/></svg></span></div></div>
+      <div class="lk"><span class="tag">Centro de distribuição</span><div class="redact"><i style="width:68%"></i><i style="width:45%"></i></div><span class="loc">Ribeirão Preto · 168 km</span><div class="st"><span>Galpão de alto pé-direito</span><span class="lock"><svg viewBox="0 0 16 16" fill="none" stroke="#A1A1AA" stroke-width="1.6"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2"/></svg></span></div></div>
+      <div class="lk"><span class="tag">Sucroenergético</span><div class="redact"><i style="width:60%"></i><i style="width:50%"></i></div><span class="loc">Catanduva · 55 km</span><div class="st"><span>Operação contínua</span><span class="lock"><svg viewBox="0 0 16 16" fill="none" stroke="#A1A1AA" stroke-width="1.6"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2"/></svg></span></div></div>
+      <div class="lk"><span class="tag">Metalmecânica</span><div class="redact"><i style="width:80%"></i><i style="width:42%"></i></div><span class="loc">São Carlos · 204 km</span><div class="st"><span>Grande porte</span><span class="lock"><svg viewBox="0 0 16 16" fill="none" stroke="#A1A1AA" stroke-width="1.6"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2"/></svg></span></div></div>
+      <div class="lk"><span class="tag">Condomínio logístico</span><div class="redact"><i style="width:72%"></i><i style="width:38%"></i></div><span class="loc">Bauru · 169 km</span><div class="st"><span>Galpão de alto pé-direito</span><span class="lock"><svg viewBox="0 0 16 16" fill="none" stroke="#A1A1AA" stroke-width="1.6"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2"/></svg></span></div></div>
+    </div>
+    <p class="note">Contagens estimadas por setor dentro do raio de 300 km de São José do Rio Preto, considerando empresas de grande porte com operação industrial ou logística. Os sinais de expansão de cada conta são confirmados no mapeamento completo.</p>
+  </section>
+
+  <section class="next" aria-labelledby="n-h">
+    <div>
+      <span class="eyebrow">Próxima etapa</span>
+      <h2 id="n-h" style="margin-top:10px">O que o mapeamento completo libera</h2>
+      <p class="sub">Esta página mostra 4 contas. No mapeamento completo, a Galt aplica o mesmo processo a todo o universo do raio e entrega a lista pronta para a prospecção.</p>
+      <span class="cta">Para liberar, responda à Galt Growth pelo canal em que recebeu esta página</span>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><div><b>Contas com expansão confirmada</b><span>Nome, cidade, tipo de obra e investimento de cada empresa que está ampliando ou construindo.</span></div></div>
+      <div class="step"><span class="n">2</span><div><b>Estágio da obra e janela de compra</b><span>Quem está no projeto, na estrutura ou nas instalações, para abordar antes de a iluminação ser comprada.</span></div></div>
+      <div class="step"><span class="n">3</span><div><b>Decisores por conta</b><span>Engenharia, manutenção, projetos e obras, com nome e cargo, na matriz e na planta.</span></div></div>
+      <div class="step"><span class="n">4</span><div><b>Abordagem no LinkedIn</b><span>Sequência de mensagens para cada perfil de decisor, com o argumento técnico da Enerlight.</span></div></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Galt Growth · Mapeamento de contas-alvo para Enerlight · setembro de 2026</span>
+    <span>Contas liberadas com base em anúncios públicos de investimento. Distâncias em linha reta a partir de São José do Rio Preto.</span>
+  </footer>
+
+</div>
+</body>
+</html>
