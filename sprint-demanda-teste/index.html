@@ -62,16 +62,16 @@ p{margin:0}
 .top small{font-family:var(--mono);color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
 
 /* hero */
-.hero{padding-block:24px 72px}
-.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;grid-template-areas:"copy player" "cta player";gap:28px 56px}
-.hero-grid>*{min-width:0}
-.hero-copy{grid-area:copy;align-self:end;display:flex;flex-direction:column;gap:22px}
-.player{grid-area:player}
-.cta-row{grid-area:cta;align-self:start;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.hero{padding-block:8px 72px}
+.hero-grid{display:flex;flex-direction:column;align-items:center;gap:28px;text-align:center}
+.hero-grid>*{min-width:0;width:100%}
+.hero-copy{max-width:900px}
+.hero-copy h1{font-size:clamp(40px,6.4vw,80px)}
+.cta-row{display:flex;flex-direction:column;align-items:center;gap:12px}
 .chips{display:flex;flex-wrap:wrap;gap:10px}
 .chip{font-family:var(--mono);font-size:13px;padding:6px 12px;border:1.5px solid #3a3a3a;border-radius:6px;color:var(--ink)}
 
-.player{position:relative;width:100%;max-width:360px;aspect-ratio:9/16;margin-inline:auto;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#0b0b0b;box-shadow:0 0 0 1px #000,0 30px 80px rgba(110,232,122,.10)}
+.player{position:relative;width:100%;max-width:min(360px,100%);aspect-ratio:9/16;margin-inline:auto;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#0b0b0b;box-shadow:0 0 0 1px #000,0 30px 80px rgba(110,232,122,.10)}
 .player .cam{position:absolute;inset:0 0 50% 0;background:radial-gradient(90% 80% at 50% 30%,#232823,#0b0b0b 72%)}
 .player .slide{position:absolute;inset:50% 0 0 0;border-top:1px solid var(--line);background-color:#050505;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:30px 30px;padding:22px 20px 26px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px}
 .player .slide b{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:30px;line-height:.95;text-transform:uppercase}
@@ -245,7 +245,6 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 @media (max-width:640px){.row2{grid-template-columns:1fr}.fm{padding:22px}}
 
 @media (max-width:900px){
-  .hero-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:"copy" "player" "cta"}
   .cta-row{align-items:stretch}
   .proof{grid-template-columns:1fr 1fr}
   .steps{grid-template-columns:1fr 1fr;row-gap:32px}
@@ -277,12 +276,7 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
   <header class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <span class="k">Para empresas de engenharia</span>
         <h1>Um novo modelo de <span class="hi">geração de negócios</span> para empresas de engenharia</h1>
-        <p class="lead">Sem depender de indicação. A gente coloca a sua empresa na frente de quem contrata dentro das indústrias que estão investindo agora.</p>
-        <div class="chips" aria-label="Segmentos">
-          <span class="chip">Elétrica</span><span class="chip">Montagem</span><span class="chip">Climatização</span><span class="chip">Telhados</span><span class="chip">Estruturas metálicas</span><span class="chip">Projetos</span>
-        </div>
       </div>
       <div class="player" role="region" aria-label="Vídeo de apresentação">
         <div id="yt"></div>
@@ -451,6 +445,10 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
     <div class="head">
       <span class="k">Para quem é</span>
       <h2>Feito para <span class="hi">dono de empresa</span> de engenharia.</h2>
+      <p class="lead">Sem depender de indicação. A gente coloca a sua empresa na frente de quem contrata dentro das indústrias que estão investindo agora.</p>
+      <div class="chips" aria-label="Segmentos">
+        <span class="chip">Elétrica</span><span class="chip">Montagem</span><span class="chip">Climatização</span><span class="chip">Telhados</span><span class="chip">Estruturas metálicas</span><span class="chip">Projetos</span>
+      </div>
     </div>
     <div class="fit">
       <div class="yes">
