@@ -83,6 +83,14 @@ p{margin:0}
 @keyframes ring{0%{box-shadow:0 0 0 0 rgba(110,232,122,.5)}70%{box-shadow:0 0 0 22px rgba(110,232,122,0)}100%{box-shadow:0 0 0 0 rgba(110,232,122,0)}}
 .smile strong{font-family:var(--display);font-stretch:75%;font-weight:800;font-size:24px;text-transform:uppercase;text-shadow:0 2px 12px #000}
 .smile em{font-style:normal;color:var(--ink);font-size:14px;opacity:.85}
+.player #yt,.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:1}
+.player .shield{position:absolute;inset:0;z-index:2;border:0;background:transparent;cursor:pointer;padding:0}
+.player .shield:focus-visible{outline:2px solid var(--accent);outline-offset:-6px}
+.player .smile{z-index:3}
+.player .progress{z-index:4}
+.player.ready .cam,.player.ready .slide,.player.ready .tag{display:none}
+.player .pause{position:absolute;inset:auto 0 40%;z-index:3;display:flex;justify-content:center;pointer-events:none}
+.player .pause span{background:rgba(0,0,0,.72);border:1px solid var(--line);border-radius:99px;padding:8px 16px;font-family:var(--mono);font-size:12px;color:var(--ink)}
 .player .tag{position:absolute;right:10px;top:10px;font-family:var(--mono);font-size:10px;color:var(--muted);background:rgba(0,0,0,.6);padding:3px 7px;border-radius:4px}
 .progress{position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(255,255,255,.08)}
 .progress i{display:block;height:100%;width:0;background:var(--accent);transition:width .9s linear}
@@ -277,6 +285,9 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
         </div>
       </div>
       <div class="player" role="region" aria-label="Vídeo de apresentação">
+        <div id="yt"></div>
+        <button class="shield" type="button" id="shield" aria-label="Pausar ou continuar o vídeo" hidden></button>
+        <div class="pause" id="pausado" hidden><span>Pausado · toque para continuar</span></div>
         <div class="cam" aria-hidden="true"></div>
         <div class="slide" aria-hidden="true"><i>Para empresas de engenharia</i><b>Quase todo contrato novo vem por <span class="hi">indicação</span>?</b></div>
         <button class="smile" type="button" id="play">
@@ -284,7 +295,7 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
           <strong>Seu vídeo já começou</strong>
           <em>Clique para ouvir</em>
         </button>
-        <span class="tag">player VTurb</span>
+        <span class="tag">vídeo no YouTube (não listado)</span>
         <div class="progress" aria-hidden="true"><i></i></div>
       </div>
       <div class="cta-row">
@@ -564,7 +575,7 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
    Na versão no ar, chamar atualizarTempo(segundos) com o tempo do player da VTurb
    (ou usar o "delay de elementos" da VTurb chamando liberar()). A barra inteligente nativa da VTurb substitui desenharBarra. */
 const LIBERA_EM = 17 * 60 + 8;
-const DURACAO = 18 * 60 + 34;
+let DURACAO = 18 * 60 + 34;     // trocada pela duração real quando o vídeo carrega
 const DESTINO = '#agendar';        // o clique abre o formulário
 const WHATSAPP = '554192869072';   // +55 41 9286-9072, recebe os dados do formulário
 const KEY = 'sprint-cta-liberado';
@@ -586,7 +597,8 @@ function liberar(salvar = true){
 }
 function atualizarTempo(t){
   desenharBarra(t);
-  if (!liberado && t >= LIBERA_EM) liberar();
+  // trava de segurança: se o vídeo for mais curto que LIBERA_EM, libera aos 92% dele
+  if (!liberado && t >= Math.min(LIBERA_EM, DURACAO * 0.92)) liberar();
 }
 /* ---------- formulário ---------- */
 const dlg = document.getElementById('form-dlg');
@@ -641,15 +653,82 @@ ctas.forEach(a => a.addEventListener('click', e => {
 }));
 try { if (localStorage.getItem(KEY) === '1') liberar(); } catch (e) {}
 
-/* Player da VTurb: lê o tempo do vídeo para liberar o botão no momento certo.
-   Até o embed entrar, o espaço do player fica com o aviso "Seu vídeo já começou". */
-setInterval(() => {
-  try {
-    const p = window.smartplayer && window.smartplayer.instances && window.smartplayer.instances[0];
-    const t = p && p.video ? p.video.currentTime : null;
-    if (typeof t === 'number') atualizarTempo(t);
-  } catch (e) {}
-}, 1000);
+/* ---------- vídeo no YouTube ----------
+   VIDEO_ID: o código do link do YouTube (ex.: youtube.com/watch?v=ESTE_CODIGO). Subir como "Não listado".
+   Começa mudo e sozinho; no clique volta ao início com som. Sem controles de tempo do YouTube:
+   a única barra é a nossa (rápida no começo, lenta no fim). O tempo real do vídeo destrava o botão. */
+const VIDEO_ID = '4BFLTRmCBTA';   // youtu.be/4BFLTRmCBTA · canal Instituto Honório, não listado
+const POS_KEY = 'sprint-video-pos';
+let yt = null, comSom = false;
+const playerEl = document.querySelector('.player');
+const aviso = document.getElementById('play');
+const shield = document.getElementById('shield');
+const pausado = document.getElementById('pausado');
+
+function iniciarYouTube(){
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+  window.onYouTubeIframeAPIReady = () => {
+    yt = new YT.Player('yt', {
+      videoId: VIDEO_ID,
+      playerVars: {autoplay: 1, mute: 0, controls: 0, disablekb: 1, fs: 0, rel: 0, playsinline: 1, iv_load_policy: 3, modestbranding: 1},
+      events: {
+        onReady: e => {
+          playerEl.classList.add('ready');
+          const d = e.target.getDuration(); if (d > 0) DURACAO = d;
+          // 1º tenta tocar com som. Se o navegador bloquear, toca mudo com o aviso "clique para ouvir".
+          e.target.unMute(); e.target.setVolume(100); e.target.playVideo();
+          setTimeout(() => {
+            const tocando = e.target.getPlayerState() === YT.PlayerState.PLAYING;
+            if (tocando && !e.target.isMuted()) {
+              comSom = true; aviso.hidden = true; shield.hidden = false;
+            } else {
+              e.target.mute(); e.target.playVideo();
+            }
+          }, 1200);
+          setInterval(tick, 500);
+        },
+        onStateChange: e => { pausado.hidden = !(comSom && e.data === YT.PlayerState.PAUSED); }
+      }
+    });
+  };
+  aviso.addEventListener('click', () => {
+    if (!yt || !yt.unMute) return;
+    let volta = 0;
+    try { volta = parseFloat(localStorage.getItem(POS_KEY)) || 0; } catch (e) {}
+    yt.seekTo(volta > 15 ? volta : 0, true);
+    yt.unMute(); yt.setVolume(100); yt.playVideo();
+    comSom = true; aviso.hidden = true; shield.hidden = false;
+  });
+  shield.addEventListener('click', () => {
+    if (!yt) return;
+    yt.getPlayerState() === YT.PlayerState.PLAYING ? yt.pauseVideo() : yt.playVideo();
+  });
+}
+function tick(){
+  if (!yt || !yt.getCurrentTime) return;
+  const t = yt.getCurrentTime();
+  if (!comSom) { desenharBarra(0); return; }          // enquanto está mudo, a barra não anda
+  atualizarTempo(t);
+  try { localStorage.setItem(POS_KEY, String(t)); } catch (e) {}
+}
+
+if (VIDEO_ID) {
+  iniciarYouTube();
+} else {
+  /* Sem vídeo ainda: simulação para revisão (o tempo corre a partir do clique). */
+  let t0 = null;
+  aviso.addEventListener('click', function () {
+    this.style.background = 'transparent';
+    this.querySelector('.playbtn').hidden = true;
+    this.querySelector('strong').textContent = 'Aqui entra o vídeo do YouTube';
+    this.querySelector('em').textContent = 'Revisão: o tempo do vídeo está sendo simulado';
+    if (t0 === null){ t0 = Date.now(); setInterval(() => atualizarTempo((Date.now() - t0) / 1000), 1000); }
+  });
+}
+const simBtn = document.getElementById('sim');
+if (simBtn) simBtn.addEventListener('click', () => liberar(false));
 </script>
 
 </body>
