@@ -640,6 +640,17 @@ fm.addEventListener('submit', e => {
     '',
     `Origem: ${ORIGEM}${utm ? ' · ' + utm : ''}`,
   ].join('\n');
+  // Grava o cadastro no banco da Amanda (VPS); ela chama o lead na hora.
+  fetch(https://amanda.179-197-80-117.sslip.io/lead, {
+    method: POST, keepalive: true,
+    headers: { Content-Type: application/json },
+    body: JSON.stringify({
+      nome: v(f-nome), telefone: v(f-tel), email: v(f-email),
+      segmento: v(f-seg), faturamento: v(f-fat),
+      origem: /radar/i.test(ORIGEM) ? sprint_radar : sprint_meta,
+      utm: Object.fromEntries(q)
+    })
+  }).catch(() => {});
   const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
   document.getElementById('fm-wa').href = url;
   fm.hidden = true; ok.hidden = false;
