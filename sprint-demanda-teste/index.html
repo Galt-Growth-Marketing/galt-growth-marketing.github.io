@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Sprint de Demanda · Galt Growth</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a mesma linguagem dos slides da VSL. Preto com grade, títulos condensados em caixa alta, verde só para o que importa.
+   Topo em duas colunas (tese + VSL vertical); depois dobras curtas, cada uma com um elemento visual. */
+:root{
+  --bg:#050505;
+  --panel:#111111;
+  --panel2:#171a17;
+  --line:#2a2a2a;
+  --grid:rgba(255,255,255,.045);
+  --ink:#ffffff;
+  --muted:#a6a6a6;
+  --dim:#6b6b6b;
+  --accent:#6ee87a;
+  --accent-d:#3fbf52;
+  --lock:#2b2b2b;
+  --hot:#ff5b4a; --warm:#ffc845; --cold:#5fb4ff;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --body:"Inter",system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;margin:0}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.gridbg{background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:64px 64px}
+section{padding-block:80px;border-top:1px solid var(--line)}
+h1,h2,h3{margin:0;text-wrap:balance}
+h1,h2{font-family:var(--display);font-stretch:62%;font-weight:900;text-transform:uppercase;line-height:.95;letter-spacing:-.005em}
+h1{font-size:clamp(46px,7.4vw,92px)}
+h2{font-size:clamp(36px,5.2vw,64px)}
+h3{font-family:var(--body);font-size:19px;font-weight:700;line-height:1.3}
+p{margin:0}
+.hi{color:var(--accent)}
+.k{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.lead{color:var(--muted);font-size:18px;max-width:58ch}
+.head{display:flex;flex-direction:column;gap:16px;margin-bottom:44px;max-width:780px}
+.ico{width:28px;height:28px;flex:none;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* faixa de revisão */
+.review{background:#1b1b1b;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted);padding-block:10px}
+.review b{color:var(--ink)}
+.review button{font:inherit;font-size:12.5px;background:transparent;color:var(--accent);border:1px solid var(--line);border-radius:6px;padding:3px 10px;margin-left:8px;cursor:pointer}
+
+/* topo */
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:20px}
+.mark{font-family:var(--display);font-stretch:100%;font-weight:800;letter-spacing:.24em;font-size:14px}
+.mark span{color:var(--accent)}
+.top small{font-family:var(--mono);color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+
+/* hero */
+.hero{padding-block:24px 72px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;grid-template-areas:"copy player" "cta player";gap:28px 56px}
+.hero-grid>*{min-width:0}
+.hero-copy{grid-area:copy;align-self:end;display:flex;flex-direction:column;gap:22px}
+.player{grid-area:player}
+.cta-row{grid-area:cta;align-self:start;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{font-family:var(--mono);font-size:13px;padding:6px 12px;border:1.5px solid #3a3a3a;border-radius:6px;color:var(--ink)}
+
+.player{position:relative;width:100%;max-width:360px;aspect-ratio:9/16;margin-inline:auto;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#0b0b0b;box-shadow:0 0 0 1px #000,0 30px 80px rgba(110,232,122,.10)}
+.player .cam{position:absolute;inset:0 0 50% 0;background:radial-gradient(90% 80% at 50% 30%,#232823,#0b0b0b 72%)}
+.player .slide{position:absolute;inset:50% 0 0 0;border-top:1px solid var(--line);background-color:#050505;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:30px 30px;padding:22px 20px 26px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px}
+.player .slide b{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:30px;line-height:.95;text-transform:uppercase}
+.player .slide i{font-style:normal;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}
+.player .smile{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;cursor:pointer;border:0;background:rgba(0,0,0,.25);color:var(--ink);font:inherit;padding:20px}
+.player .smile:focus-visible{outline:2px solid var(--accent);outline-offset:-6px}
+.playbtn{width:78px;height:78px;border-radius:50%;background:var(--accent);display:grid;place-items:center;animation:ring 2.2s infinite}
+.playbtn::after{content:"";border-left:24px solid #050505;border-top:15px solid transparent;border-bottom:15px solid transparent;margin-left:7px}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(110,232,122,.5)}70%{box-shadow:0 0 0 22px rgba(110,232,122,0)}100%{box-shadow:0 0 0 0 rgba(110,232,122,0)}}
+.smile strong{font-family:var(--display);font-stretch:75%;font-weight:800;font-size:24px;text-transform:uppercase;text-shadow:0 2px 12px #000}
+.smile em{font-style:normal;color:var(--ink);font-size:14px;opacity:.85}
+.player #yt,.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:1}
+.player .shield{position:absolute;inset:0;z-index:2;border:0;background:transparent;cursor:pointer;padding:0}
+.player .shield:focus-visible{outline:2px solid var(--accent);outline-offset:-6px}
+.player .smile{z-index:3}
+.player .progress{z-index:4}
+.player.ready .cam,.player.ready .slide,.player.ready .tag{display:none}
+.player .pause{position:absolute;inset:auto 0 40%;z-index:3;display:flex;justify-content:center;pointer-events:none}
+.player .pause span{background:rgba(0,0,0,.72);border:1px solid var(--line);border-radius:99px;padding:8px 16px;font-family:var(--mono);font-size:12px;color:var(--ink)}
+.player .tag{position:absolute;right:10px;top:10px;font-family:var(--mono);font-size:10px;color:var(--muted);background:rgba(0,0,0,.6);padding:3px 7px;border-radius:4px}
+.progress{position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(255,255,255,.08)}
+.progress i{display:block;height:100%;width:0;background:var(--accent);transition:width .9s linear}
+
+/* botões */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;max-width:100%;font-family:var(--display);font-stretch:85%;font-weight:800;font-size:20px;letter-spacing:.01em;text-transform:uppercase;padding:18px 32px;border-radius:8px;text-decoration:none;border:0;cursor:pointer;text-align:center;line-height:1.2}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.btn .t{display:flex;align-items:center;justify-content:center;gap:10px;min-width:0}
+.btn .lk{width:18px;height:18px;flex:none;fill:currentColor}
+.btn.locked{background:var(--lock);color:#8d8d8d;border:1px solid #3a3a3a;cursor:not-allowed;flex-direction:column;gap:4px}
+.btn.locked small{font-family:var(--mono);font-weight:400;font-size:12px;text-transform:none;letter-spacing:.02em;color:#8d8d8d}
+.btn.open{background:var(--accent);color:#050505;animation:go 1.8s ease-out infinite}
+.btn.open:hover{background:var(--accent-d)}
+@keyframes go{0%{box-shadow:0 0 0 0 rgba(110,232,122,.6)}70%{box-shadow:0 0 0 18px rgba(110,232,122,0)}100%{box-shadow:0 0 0 0 rgba(110,232,122,0)}}
+
+/* números */
+.proof{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:64px}
+.proof div{background:var(--bg);padding:22px 18px;display:flex;flex-direction:column;gap:4px}
+.proof b{font-family:var(--display);font-stretch:80%;font-weight:800;font-size:44px;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.proof span{color:var(--muted);font-size:14px;line-height:1.35}
+
+/* dor */
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pain{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:26px;display:flex;flex-direction:column;gap:14px}
+.pain .ib{width:52px;height:52px;border-radius:10px;background:var(--panel2);border:1px solid #243024;display:grid;place-items:center}
+.pain p{color:var(--muted);font-size:15.5px}
+.verdict{margin-top:48px;display:flex;gap:22px;align-items:stretch}
+.verdict::before{content:"";width:8px;background:var(--accent);border-radius:2px;flex:none}
+.verdict p{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:clamp(30px,4.2vw,50px);line-height:1;text-transform:uppercase;text-wrap:balance}
+
+/* novo modelo: rede x arpão */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.col{border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column}
+.col svg{display:block;width:100%;height:auto;background:#0a0a0a;border-bottom:1px solid var(--line)}
+.col .txt{padding:22px 24px;display:flex;flex-direction:column;gap:8px}
+.col .lbl{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.col h3{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:34px;text-transform:uppercase;line-height:1}
+.col p{color:var(--muted);font-size:15.5px}
+.col.on{border-color:var(--accent);background:var(--panel2)}
+.col.on .lbl{color:var(--accent)}
+.shot-line{stroke:var(--accent);stroke-width:2.5;stroke-dasharray:6 7;animation:dash 1.2s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-26}}
+.target{animation:tgt 2s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+@keyframes tgt{50%{transform:scale(1.18)}}
+.who{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;align-items:center}
+.who .k{margin-right:6px;color:var(--muted)}
+
+/* como funciona */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative}
+.steps::before{content:"";position:absolute;left:38px;right:12%;top:38px;height:2px;background:repeating-linear-gradient(90deg,#3a3a3a 0 8px,transparent 8px 14px)}
+.st{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.st>div{display:flex;flex-direction:column;gap:6px;min-width:0}
+.st .ib{width:76px;height:76px;border-radius:50%;background:var(--panel);border:1.5px solid #3a3a3a;display:grid;place-items:center;position:relative;flex:none}
+.st .ib .ico{width:32px;height:32px}
+.st .n{position:absolute;top:-4px;right:-4px;width:26px;height:26px;border-radius:50%;background:var(--bg);border:1.5px solid #3a3a3a;font-family:var(--mono);font-size:12px;display:grid;place-items:center;color:var(--muted)}
+.st p{color:var(--muted);font-size:15px}
+.st.you .ib{background:var(--accent);border-color:var(--accent)}
+.st.you .ib .ico{stroke:#050505}
+.st.you .n{border-color:var(--accent);color:var(--accent)}
+.temps{margin-top:40px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px 24px;display:grid;grid-template-columns:auto 1fr 1fr 1fr;gap:14px 20px;align-items:center}
+.temps .k{color:var(--muted)}
+.tp{display:flex;align-items:center;gap:12px;border-left:6px solid;padding:6px 0 6px 14px;min-width:0}
+.tp b{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:28px;text-transform:uppercase;line-height:1}
+.tp span{color:var(--muted);font-size:14px;line-height:1.35}
+.tp.q{border-color:var(--hot)} .tp.q b{color:var(--hot)}
+.tp.m{border-color:var(--warm)} .tp.m b{color:var(--warm)}
+.tp.f{border-color:var(--cold)} .tp.f b{color:var(--cold)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.fact{border:1px solid var(--line);border-radius:12px;padding:20px 22px;display:flex;align-items:center;gap:16px}
+.fact b{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:46px;line-height:1;color:var(--accent);text-transform:uppercase;white-space:nowrap}
+.fact span{color:var(--muted);font-size:14.5px;line-height:1.35}
+
+/* funil */
+.funnel{display:flex;flex-direction:column;gap:10px;margin-bottom:72px}
+.fr{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:18px;align-items:center}
+.fr .track{height:52px;background:var(--panel);border-radius:6px;overflow:hidden}
+.fr .fill{height:100%;background:#3a3a3a;display:flex;align-items:center;padding-left:16px;font-family:var(--display);font-stretch:75%;font-weight:800;font-size:26px;min-width:64px}
+.fr.last .fill{background:var(--accent);color:#050505}
+.fr span{color:var(--muted);font-size:15px;line-height:1.3}
+.fr.last span{color:var(--ink);font-weight:600}
+
+/* resultados */
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+.shot{margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel);display:flex;flex-direction:column;min-width:0}
+.shot figcaption{padding:18px 20px 16px;display:flex;flex-direction:column;gap:2px;border-bottom:1px solid var(--line)}
+.shot figcaption b{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:40px;line-height:1;text-transform:uppercase;color:var(--accent)}
+.shot figcaption span{color:var(--muted);font-size:13.5px;font-family:var(--mono)}
+.shot img{display:block;width:100%;height:auto;background:#fff}
+.rings{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.ringc{border:1px solid var(--line);border-radius:12px;padding:22px 24px;display:flex;align-items:center;gap:22px;background:var(--panel)}
+.ringc svg{width:110px;height:110px;flex:none}
+.ringc .val{font-family:var(--display);font-stretch:80%;font-weight:800;font-size:30px;fill:var(--ink)}
+.ringc p{color:var(--muted);font-size:16px}
+.ringc p b{color:var(--ink);font-family:var(--display);font-stretch:62%;font-weight:900;font-size:28px;text-transform:uppercase;display:block;line-height:1;margin-bottom:6px}
+
+/* para quem */
+.fit{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+.fit>div{border:1px solid var(--line);border-radius:12px;padding:26px;background:var(--panel);display:flex;flex-direction:column;gap:16px}
+.fit .yes{border-color:#2f5a35;background:var(--panel2)}
+.fit h3{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:30px;text-transform:uppercase}
+.fit .yes h3{color:var(--accent)}
+.fit .no h3{color:var(--muted)}
+.fit ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.fit li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;color:var(--ink)}
+.fit .no li{color:var(--muted)}
+.fit li svg{width:20px;height:20px;flex:none;margin-top:2px;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.fit .yes li svg{stroke:var(--accent)}
+.fit .no li svg{stroke:var(--dim)}
+
+/* chamada final */
+.final{text-align:center}
+.final .head{margin-inline:auto;align-items:center}
+.final .lead{margin-inline:auto}
+.faq{max-width:780px;margin:64px auto 0;display:flex;flex-direction:column;gap:10px;text-align:left}
+details{border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+summary{cursor:pointer;padding:18px 20px;font-weight:600;font-size:16px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--accent);font-family:var(--mono);font-size:18px;line-height:1}
+details[open] summary::after{content:"–"}
+summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
+details p{padding:0 20px 18px;color:var(--muted);font-size:15px}
+footer{border-top:1px solid var(--line);padding-block:28px;color:var(--dim);font-size:12.5px;text-align:center}
+
+/* formulário de agendamento */
+dialog{width:min(520px,calc(100% - 32px));max-height:calc(100% - 32px);padding:0;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--ink)}
+dialog::backdrop{background:rgba(0,0,0,.75)}
+.fm{padding:28px;display:flex;flex-direction:column;gap:16px}
+.fm-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.fm-head h2{font-size:clamp(30px,6vw,40px)}
+.fm-head p{color:var(--muted);font-size:15px;margin-top:8px}
+.x{flex:none;width:36px;height:36px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:20px;cursor:pointer;line-height:1}
+.x:focus-visible{outline:2px solid var(--accent)}
+.fl{display:flex;flex-direction:column;gap:6px}
+.fl label{font-size:13px;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.fl input,.fl select{width:100%;background:var(--bg);border:1px solid #3a3a3a;border-radius:8px;color:var(--ink);font:inherit;font-size:16px;padding:13px 14px}
+.fl select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--accent) 50%),linear-gradient(135deg,var(--accent) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px;background-repeat:no-repeat;padding-right:40px}
+.fl input:focus,.fl select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.fl input:user-invalid,.fl select:user-invalid{border-color:var(--hot)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row2>*{min-width:0}
+.fm .btn{width:100%;margin-top:4px}
+.fm small.priv{color:var(--dim);font-size:12.5px;text-align:center}
+.ok{padding:40px 28px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
+.ok .ib{width:64px;height:64px;border-radius:50%;background:var(--accent);display:grid;place-items:center}
+.ok .ib svg{width:30px;height:30px;stroke:#050505;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.ok p{color:var(--muted)}
+.ok .btn{width:100%}
+.wa-num{font-size:13.5px}
+.wa-num b{color:var(--ink);font-family:var(--mono);font-weight:500}
+.x-link{background:none;border:0;color:var(--muted);font:inherit;font-size:14px;text-decoration:underline;cursor:pointer;padding:4px}
+.x-link:focus-visible{outline:2px solid var(--accent);border-radius:4px}
+@media (max-width:640px){.row2{grid-template-columns:1fr}.fm{padding:22px}}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:"copy" "player" "cta"}
+  .cta-row{align-items:stretch}
+  .proof{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr;row-gap:32px}
+  .steps::before{display:none}
+  .temps{grid-template-columns:1fr}
+  .facts{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  section{padding-block:60px}
+  .pains,.compare,.shots,.fit,.rings{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .st{flex-direction:row;align-items:center;gap:16px}
+  .fr{grid-template-columns:1fr;gap:6px}
+  .btn{width:100%}
+  .proof b{font-size:30px;white-space:nowrap}
+}
+</style>
+</head>
+<body>
+
+
+
+<div class="gridbg">
+  <div class="wrap top">
+    <div class="mark">GALT <span>GROWTH</span></div>
+    <small>Sprint Estratégico de Demanda</small>
+  </div>
+
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="k">Para empresas de engenharia</span>
+        <h1>Um novo modelo de <span class="hi">geração de negócios</span> para empresas de engenharia</h1>
+        <p class="lead">Sem depender de indicação. A gente coloca a sua empresa na frente de quem contrata dentro das indústrias que estão investindo agora.</p>
+        <div class="chips" aria-label="Segmentos">
+          <span class="chip">Elétrica</span><span class="chip">Montagem</span><span class="chip">Climatização</span><span class="chip">Telhados</span><span class="chip">Estruturas metálicas</span><span class="chip">Projetos</span>
+        </div>
+      </div>
+      <div class="player" role="region" aria-label="Vídeo de apresentação">
+        <div id="yt"></div>
+        <button class="shield" type="button" id="shield" aria-label="Pausar ou continuar o vídeo" hidden></button>
+        <div class="pause" id="pausado" hidden><span>Pausado · toque para continuar</span></div>
+        <div class="cam" aria-hidden="true"></div>
+        <div class="slide" aria-hidden="true"><i>Para empresas de engenharia</i><b>Quase todo contrato novo vem por <span class="hi">indicação</span>?</b></div>
+        <button class="smile" type="button" id="play">
+          <span class="playbtn" aria-hidden="true"></span>
+          <strong>Seu vídeo já começou</strong>
+          <em>Clique para ouvir</em>
+        </button>
+        <span class="tag">vídeo no YouTube (não listado)</span>
+        <div class="progress" aria-hidden="true"><i></i></div>
+      </div>
+      <div class="cta-row">
+        <a class="btn locked" href="#agendar" data-cta aria-disabled="true"><span class="t"><svg class="lk" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.2"/></svg><span>Quero isso na minha empresa</span></span><small data-left>Assista ao vídeo · será liberado em breve</small></a>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="proof">
+        <div><b>+R$ 500 mi</b><span>em contratos gerados para clientes</span></div>
+        <div><b>350+</b><span>empresas de engenharia atendidas</span></div>
+        <div><b>9 anos</b><span>só com engenharia</span></div>
+        <div><b>100%</b><span>dos clientes com demanda em até 60 dias</span></div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<section id="problema">
+  <div class="wrap">
+    <div class="head">
+      <span class="k">O problema</span>
+      <h2>Quase todo contrato novo chega por <span class="hi">indicação</span>?</h2>
+      <p class="lead">A sua empresa é boa tecnicamente e quem contrata volta. Mas o crescimento fica na mão dos outros.</p>
+    </div>
+    <div class="pains">
+      <div class="pain">
+        <span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12M6 22h12M7 2c0 5 10 5 10 10S7 17 7 22M17 2c0 5-10 5-10 10s10 5 10 10"/></svg></span>
+        <h3>Você espera o cliente vir até você.</h3>
+        <p>Quando a indicação não chega, a agenda fica parada.</p>
+      </div>
+      <div class="pain">
+        <span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l7.5 5"/></svg></span>
+        <h3>Poucos clientes concentram o faturamento.</h3>
+        <p>Se um deles para de comprar, o caixa sente no mês seguinte.</p>
+      </div>
+      <div class="pain">
+        <span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M10.2 13.4a1.9 1.9 0 1 1 2.6 1.8c-.5.2-.8.6-.8 1.1M12 18.6h.01"/></svg></span>
+        <h3>O mês começa com uma pergunta.</h3>
+        <p>Quanto vai entrar? E a resposta depende de alguém lembrar do seu nome.</p>
+      </div>
+    </div>
+    <div class="verdict"><p>O problema não é a sua empresa. É a falta de um <span class="hi">canal</span>.</p></div>
+  </div>
+</section>
+
+<section id="modelo" class="gridbg">
+  <div class="wrap">
+    <div class="head">
+      <span class="k">O novo modelo</span>
+      <h2>Em vez de esperar, a sua empresa vai até <span class="hi">quem contrata</span>.</h2>
+    </div>
+    <div class="compare">
+      <div class="col">
+        <svg id="rede" viewBox="0 0 400 200" role="img" aria-label="Rede: muitos pontos misturados, poucos certos"></svg>
+        <div class="txt">
+          <span class="lbl">Como quase todo mundo faz</span>
+          <h3>Pescar de rede</h3>
+          <p>Indicação, anúncio, lista fria. Vem de tudo, e às vezes o que você queria.</p>
+        </div>
+      </div>
+      <div class="col on">
+        <svg id="arpao" viewBox="0 0 400 200" role="img" aria-label="Arpão: uma linha direta até um único alvo"></svg>
+        <div class="txt">
+          <span class="lbl">O modelo do Sprint</span>
+          <h3>Pescar de arpão</h3>
+          <p>Escolher a indústria, a região e a pessoa lá dentro, e falar direto com ela pelo seu perfil pessoal no LinkedIn.</p>
+        </div>
+      </div>
+    </div>
+    <div class="who" aria-label="Com quem a gente conversa">
+      <span class="k">Quem decide</span>
+      <span class="chip">Engenharia e projetos</span><span class="chip">Manutenção</span><span class="chip">Suprimentos e compras</span><span class="chip">Facilities</span>
+    </div>
+  </div>
+</section>
+
+<section id="como">
+  <div class="wrap">
+    <div class="head">
+      <span class="k">Como funciona</span>
+      <h2>A gente monta o caminho. Você conversa com <span class="hi">quem levantou a mão</span>.</h2>
+    </div>
+    <div class="steps">
+      <div class="st">
+        <span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg><span class="n">1</span></span>
+        <div><h3>Seu perfil</h3><p>Reescrito para o comprador técnico entender em segundos o que você faz.</p></div>
+      </div>
+      <div class="st">
+        <span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg><span class="n">2</span></span>
+        <div><h3>Mapeamento</h3><p>As indústrias e obras do seu segmento e região, e quem decide em cada uma.</p></div>
+      </div>
+      <div class="st">
+        <span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg><span class="n">3</span></span>
+        <div><h3>Conexão e conversa</h3><p>A gente conecta, interage e conversa, sem abrir vendendo.</p></div>
+      </div>
+      <div class="st you">
+        <span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 11V6a2 2 0 0 0-4 0M14 10V4a2 2 0 0 0-4 0v2M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.9-6-2.3l-3.6-3.6a2 2 0 0 1 2.8-2.8L7 15"/></svg><span class="n">4</span></span>
+        <div><h3>Você assume</h3><p>Quem pede orçamento, homologação ou reunião vem direto para você.</p></div>
+      </div>
+    </div>
+    <div class="temps" aria-label="Como cada resposta chega classificada">
+      <span class="k">Cada resposta chega classificada</span>
+      <div class="tp q"><b>Quente</b><span>Quer orçamento ou reunião agora</span></div>
+      <div class="tp m"><b>Morna</b><span>Tem projeto para os próximos meses</span></div>
+      <div class="tp f"><b>Fria</b><span>Nada agora, mas pede para homologar</span></div>
+    </div>
+    <div class="facts">
+      <div class="fact"><b>90 dias</b><span>de projeto, com a gente do seu lado</span></div>
+      <div class="fact"><b>4</b><span>consultorias ao longo do caminho</span></div>
+      <div class="fact"><b>2 h</b><span>por semana do seu tempo para responder quem levantou a mão</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="resultados" class="gridbg">
+  <div class="wrap">
+    <div class="head">
+      <span class="k">Na prática</span>
+      <h2>A conta é mais ou menos <span class="hi">essa</span>.</h2>
+    </div>
+    <div class="funnel" aria-label="De cada 150 pessoas certas, 100 aceitam, 50 respondem e 10 levantam a mão">
+      <div class="fr"><div class="track"><div class="fill" style="width:100%">150</div></div><span>pessoas certas abordadas</span></div>
+      <div class="fr"><div class="track"><div class="fill" style="width:66.7%">100</div></div><span>aceitam a conexão</span></div>
+      <div class="fr"><div class="track"><div class="fill" style="width:33.3%">50</div></div><span>respondem</span></div>
+      <div class="fr last"><div class="track"><div class="fill" style="width:12%">10</div></div><span>levantam a mão</span></div>
+    </div>
+
+    <div class="head">
+      <span class="k">Resultados</span>
+      <h2>O que chega para os nossos clientes <span class="hi">toda semana</span>.</h2>
+      <p class="lead">Relatórios semanais reais, sem anúncio e sem formulário. Os contatos ficam ocultos.</p>
+    </div>
+    <div class="shots">
+      <figure class="shot"><figcaption><b>13 levantadas</b><span>Thor · elétrica · 1 semana</span></figcaption><img src="prints/P03.png" alt="Relatório semanal da Thor: 145 convites, 43 aceitos, 17 respostas, 13 levantadas de mão" loading="lazy"></figure>
+      <figure class="shot"><figcaption><b>11 levantadas</b><span>Thermo Central · climatização · 7 dias</span></figcaption><img src="prints/P08.png" alt="Relatório semanal da Thermo Central: 105 convites, 69 aceitos, 15 respostas, 11 levantadas de mão" loading="lazy"></figure>
+      <figure class="shot"><figcaption><b>9 levantadas</b><span>Ideal Coberturas · telhados · 7 dias</span></figcaption><img src="prints/P07.png" alt="Relatório semanal da Ideal Coberturas: 17 respostas e 9 levantadas de mão, uma com demanda de telhado" loading="lazy"></figure>
+    </div>
+    <div class="rings">
+      <div class="ringc">
+        <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="50" fill="none" stroke="#262626" stroke-width="12"/><circle cx="60" cy="60" r="50" fill="none" stroke="#6ee87a" stroke-width="12" stroke-linecap="round" stroke-dasharray="314.16 314.16" transform="rotate(-90 60 60)"/><text class="val" x="60" y="70" text-anchor="middle">100%</text></svg>
+        <p><b>Até 60 dias</b>dos clientes com demanda depois da implantação</p>
+      </div>
+      <div class="ringc">
+        <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="50" fill="none" stroke="#262626" stroke-width="12"/><circle cx="60" cy="60" r="50" fill="none" stroke="#6ee87a" stroke-width="12" stroke-linecap="round" stroke-dasharray="229.34 314.16" transform="rotate(-90 60 60)"/><text class="val" x="60" y="70" text-anchor="middle">73%</text></svg>
+        <p><b>Menos de 30 dias</b>dos clientes já com demanda no primeiro mês</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="para-quem">
+  <div class="wrap">
+    <div class="head">
+      <span class="k">Para quem é</span>
+      <h2>Feito para <span class="hi">dono de empresa</span> de engenharia.</h2>
+    </div>
+    <div class="fit">
+      <div class="yes">
+        <h3>É para você se</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Sua empresa presta serviço técnico para indústria ou obra</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Hoje quase todo contrato novo vem por indicação</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Seu contrato médio passa de R$ 30 mil</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Você ou alguém do time consegue dedicar 2 horas por semana às conversas</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h3>Não é para você se</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>Você vende para consumidor final</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>Quer contrato fechado sem participar das conversas</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>Não vai responder quem levantar a mão</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final gridbg" id="agendar">
+  <div class="wrap">
+    <div class="head">
+      <span class="k">Próximo passo</span>
+      <h2>Quer esse canal rodando <span class="hi">na sua empresa</span>?</h2>
+      <p class="lead">Assista ao vídeo até o fim. A conversa é para alinhar o seu plano e começar.</p>
+    </div>
+    <a class="btn locked" href="#topo" data-cta aria-disabled="true"><span class="t"><svg class="lk" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.2"/></svg><span>Quero isso na minha empresa</span></span><small data-left>Assista ao vídeo · será liberado em breve</small></a>
+    <div class="faq">
+      <details><summary>Já tentei LinkedIn e não deu em nada. O que muda?</summary><p>Quase sempre o erro é falar com o cargo errado e abrir a conversa vendendo. Aqui a lista sai do mapeamento de quem decide nas indústrias do seu segmento, e a abordagem começa pelo relacionamento.</p></details>
+      <details><summary>Preciso postar conteúdo ou aparecer em vídeo?</summary><p>Não. O canal é conversa direta com quem compra, pelo seu perfil pessoal.</p></details>
+      <details><summary>Quanto do meu tempo isso toma?</summary><p>As 4 consultorias e cerca de 2 horas por semana para responder quem levantar a mão. A montagem é nossa.</p></details>
+      <details><summary>Minha conta do LinkedIn corre risco?</summary><p>Trabalhamos dentro dos limites de envio da plataforma para proteger o seu perfil.</p></details>
+    </div>
+  </div>
+</section>
+
+<dialog id="form-dlg" aria-labelledby="fm-title">
+  <form class="fm" id="fm" novalidate>
+    <div class="fm-head">
+      <div>
+        <span class="k">Agende sua conversa</span>
+        <h2 id="fm-title">Quero isso na <span class="hi">minha empresa</span></h2>
+        <p>Preencha para a gente preparar a conversa com o seu mercado.</p>
+      </div>
+      <button type="button" class="x" id="fm-close" aria-label="Fechar">×</button>
+    </div>
+    <div class="fl"><label for="f-nome">Nome</label><input id="f-nome" name="nome" autocomplete="name" required></div>
+    <div class="row2">
+      <div class="fl"><label for="f-tel">WhatsApp</label><input id="f-tel" name="telefone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required pattern="\(\d{2}\) \d{4,5}-\d{4}"></div>
+      <div class="fl"><label for="f-email">E-mail</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+    </div>
+    <div class="fl"><label for="f-seg">Segmento da empresa</label>
+      <select id="f-seg" name="segmento" required>
+        <option value="">Escolha</option>
+        <option>Instalação elétrica</option>
+        <option>Montagem industrial</option>
+        <option>Climatização e HVAC</option>
+        <option>Telhados e coberturas</option>
+        <option>Estruturas metálicas</option>
+        <option>Projetos complementares</option>
+        <option>Construção civil</option>
+        <option>Manutenção industrial</option>
+        <option>Outro serviço de engenharia</option>
+      </select>
+    </div>
+    <div class="fl"><label for="f-fat">Faturamento mensal</label>
+      <select id="f-fat" name="faturamento" required>
+        <option value="">Escolha</option>
+        <option>Até R$ 30 mil</option>
+        <option>R$ 30 a 60 mil</option>
+        <option>R$ 60 a 99 mil</option>
+        <option>R$ 100 a 200 mil</option>
+        <option>R$ 200 a 300 mil</option>
+        <option>R$ 300 a 600 mil</option>
+        <option>R$ 600 mil a 1 milhão</option>
+        <option>Acima de R$ 1 milhão</option>
+      </select>
+    </div>
+    <button type="submit" class="btn open">Quero agendar minha conversa</button>
+    <small class="priv">Seus dados são usados só para preparar a conversa.</small>
+  </form>
+  <div class="ok" id="fm-ok" hidden>
+    <span class="ib"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+    <h2>Falta um passo</h2>
+    <p>Envie seus dados pelo WhatsApp para escolher o horário da conversa com a gente.</p>
+    <a class="btn open" id="fm-wa" href="https://wa.me/554192869072" target="_blank" rel="noopener">Abrir o WhatsApp</a>
+    <p class="wa-num">Se não abrir, chame no <b>+55 41 9286-9072</b></p>
+    <button type="button" class="x-link" id="fm-done">Fechar</button>
+  </div>
+</dialog>
+
+<footer><div class="wrap">GALT GROWTH · Galt Growth Marketing Agência de Publicidade LTDA · CNPJ 34.373.935/0001-35 · Resultados de clientes não são garantia de resultado individual.</div></footer>
+
+<script>
+/* ---------- rede x arpão ---------- */
+(function () {
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+  let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  const pts = Array.from({length: 46}, () => [24 + rnd() * 352, 20 + rnd() * 160]);
+  const rede = document.getElementById('rede');
+  for (let i = 0; i < 9; i++) el('path', {d: `M${10 + i * 48} 6 Q ${30 + i * 48} 100 ${10 + i * 48} 194`, stroke: '#2a2a2a', fill: 'none'}, rede);
+  for (let j = 0; j < 5; j++) el('path', {d: `M6 ${20 + j * 40} Q 200 ${40 + j * 40} 394 ${20 + j * 40}`, stroke: '#2a2a2a', fill: 'none'}, rede);
+  pts.forEach((p, i) => el('circle', {cx: p[0], cy: p[1], r: 5, fill: i % 13 === 0 ? '#6ee87a' : '#4a4a4a'}, rede));
+  const arp = document.getElementById('arpao');
+  pts.forEach(p => el('circle', {cx: p[0], cy: p[1], r: 5, fill: '#262626'}, arp));
+  const tx = 300, ty = 96;
+  el('line', {x1: 18, y1: 176, x2: tx - 16, y2: ty + 9, class: 'shot-line'}, arp);
+  const g = el('g', {class: 'target'}, arp);
+  el('circle', {cx: tx, cy: ty, r: 22, fill: 'none', stroke: '#6ee87a', 'stroke-width': 2}, g);
+  el('circle', {cx: tx, cy: ty, r: 12, fill: 'none', stroke: '#6ee87a', 'stroke-width': 2}, g);
+  el('circle', {cx: tx, cy: ty, r: 5, fill: '#6ee87a'}, g);
+})();
+
+/* ---------- botão travado + barra de progresso ----------
+   LIBERA_EM: segundo do vídeo em que o Guilherme chama para o botão. A página não mostra esse tempo.
+   DURACAO: duração do vídeo final. Ajustar os dois depois da edição.
+   Na versão no ar, chamar atualizarTempo(segundos) com o tempo do player da VTurb
+   (ou usar o "delay de elementos" da VTurb chamando liberar()). A barra inteligente nativa da VTurb substitui desenharBarra. */
+const LIBERA_EM = 17 * 60 + 8;
+let DURACAO = 18 * 60 + 34;     // trocada pela duração real quando o vídeo carrega
+const DESTINO = '#agendar';        // o clique abre o formulário
+const WHATSAPP = '554192869072';   // +55 41 9286-9072, recebe os dados do formulário
+const KEY = 'sprint-cta-liberado';
+const ORIGEM = 'Teste interno';
+const ctas = [...document.querySelectorAll('[data-cta]')];
+const barra = document.querySelector('.progress i');
+const progresso = x => 1 - Math.pow(1 - Math.min(Math.max(x, 0), 1), 3);   // rápido no começo, lento no fim
+let liberado = false;
+
+function desenharBarra(t){ barra.style.width = (progresso(t / DURACAO) * 100).toFixed(2) + '%'; }
+function liberar(salvar = true){
+  if (liberado) return; liberado = true;
+  ctas.forEach(a => {
+    a.classList.remove('locked'); a.classList.add('open');
+    a.removeAttribute('aria-disabled'); a.href = DESTINO;
+    a.textContent = 'Quero isso na minha empresa';
+  });
+  if (salvar) { try { localStorage.setItem(KEY, '1'); } catch (e) {} }
+}
+function atualizarTempo(t){
+  desenharBarra(t);
+  // trava de segurança: se o vídeo for mais curto que LIBERA_EM, libera aos 92% dele
+  if (!liberado && t >= Math.min(LIBERA_EM, DURACAO * 0.92)) liberar();
+}
+/* ---------- formulário ---------- */
+const dlg = document.getElementById('form-dlg');
+const fm = document.getElementById('fm');
+const ok = document.getElementById('fm-ok');
+function abrirForm(){
+  fm.hidden = false; ok.hidden = true;
+  if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+  document.getElementById('f-nome').focus();
+}
+const fechar = () => dlg.close ? dlg.close() : dlg.removeAttribute('open');
+document.getElementById('fm-close').addEventListener('click', fechar);
+document.getElementById('fm-done').addEventListener('click', fechar);
+dlg.addEventListener('click', e => { if (e.target === dlg) fechar(); });
+const tel = document.getElementById('f-tel');
+tel.addEventListener('input', () => {
+  const d = tel.value.replace(/\D/g, '').slice(0, 11);
+  tel.value = d.length <= 2 ? (d ? `(${d}` : '') :
+    d.length <= 6 ? `(${d.slice(0, 2)}) ${d.slice(2)}` :
+    d.length <= 10 ? `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}` :
+    `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+});
+fm.addEventListener('submit', e => {
+  e.preventDefault();
+  if (!fm.checkValidity()) { fm.reportValidity(); return; }
+  // Envia os dados para o WhatsApp da Galt com a mensagem já preenchida.
+  const v = id => document.getElementById(id).value.trim();
+  const q = new URLSearchParams(location.search);
+  const utm = ['utm_source', 'utm_campaign', 'utm_content'].map(k => q.get(k)).filter(Boolean).join(' / ');
+  const msg = [
+    'Olá! Assisti ao vídeo e quero o Sprint de Demanda na minha empresa.',
+    '',
+    `Nome: ${v('f-nome')}`,
+    `WhatsApp: ${v('f-tel')}`,
+    `E-mail: ${v('f-email')}`,
+    `Segmento: ${v('f-seg')}`,
+    `Faturamento mensal: ${v('f-fat')}`,
+    '',
+    `Origem: ${ORIGEM}${utm ? ' · ' + utm : ''}`,
+  ].join('\n');
+  const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  document.getElementById('fm-wa').href = url;
+  fm.hidden = true; ok.hidden = false;
+  // No site publicado o WhatsApp abre direto; se o navegador bloquear, fica o botão "Abrir o WhatsApp".
+  try { window.open(url, '_blank', 'noopener'); } catch (err) {}
+});
+
+ctas.forEach(a => a.addEventListener('click', e => {
+  e.preventDefault();
+  if (liberado) return abrirForm();
+  a.querySelector('[data-left]').textContent = 'Continue assistindo · o botão libera no momento certo';
+}));
+liberar(false);   // página de teste: botão liberado desde o início
+
+/* ---------- vídeo no YouTube ----------
+   VIDEO_ID: o código do link do YouTube (ex.: youtube.com/watch?v=ESTE_CODIGO). Subir como "Não listado".
+   Começa mudo e sozinho; no clique volta ao início com som. Sem controles de tempo do YouTube:
+   a única barra é a nossa (rápida no começo, lenta no fim). O tempo real do vídeo destrava o botão. */
+const VIDEO_ID = 'z1mi9YXm30Q';   // youtu.be/z1mi9YXm30Q · canal Instituto Honório, não listado
+const POS_KEY = 'sprint-video-pos';
+let yt = null, comSom = false;
+const playerEl = document.querySelector('.player');
+const aviso = document.getElementById('play');
+const shield = document.getElementById('shield');
+const pausado = document.getElementById('pausado');
+
+function iniciarYouTube(){
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+  window.onYouTubeIframeAPIReady = () => {
+    yt = new YT.Player('yt', {
+      videoId: VIDEO_ID,
+      playerVars: {autoplay: 1, mute: 0, controls: 0, disablekb: 1, fs: 0, rel: 0, playsinline: 1, iv_load_policy: 3, modestbranding: 1},
+      events: {
+        onReady: e => {
+          playerEl.classList.add('ready');
+          const d = e.target.getDuration(); if (d > 0) DURACAO = d;
+          // 1º tenta tocar com som. Se o navegador bloquear, toca mudo com o aviso "clique para ouvir".
+          e.target.unMute(); e.target.setVolume(100); e.target.playVideo();
+          setTimeout(() => {
+            const tocando = e.target.getPlayerState() === YT.PlayerState.PLAYING;
+            if (tocando && !e.target.isMuted()) {
+              comSom = true; aviso.hidden = true; shield.hidden = false;
+            } else {
+              e.target.mute(); e.target.playVideo();
+            }
+          }, 1200);
+          setInterval(tick, 500);
+        },
+        onStateChange: e => { pausado.hidden = !(comSom && e.data === YT.PlayerState.PAUSED); }
+      }
+    });
+  };
+  aviso.addEventListener('click', () => {
+    if (!yt || !yt.unMute) return;
+    let volta = 0;
+    try { volta = parseFloat(localStorage.getItem(POS_KEY)) || 0; } catch (e) {}
+    yt.seekTo(volta > 15 ? volta : 0, true);
+    yt.unMute(); yt.setVolume(100); yt.playVideo();
+    comSom = true; aviso.hidden = true; shield.hidden = false;
+  });
+  shield.addEventListener('click', () => {
+    if (!yt) return;
+    yt.getPlayerState() === YT.PlayerState.PLAYING ? yt.pauseVideo() : yt.playVideo();
+  });
+}
+function tick(){
+  if (!yt || !yt.getCurrentTime) return;
+  const t = yt.getCurrentTime();
+  if (!comSom) { desenharBarra(0); return; }          // enquanto está mudo, a barra não anda
+  atualizarTempo(t);
+  try { localStorage.setItem(POS_KEY, String(t)); } catch (e) {}
+}
+
+if (VIDEO_ID) {
+  iniciarYouTube();
+} else {
+  /* Sem vídeo ainda: simulação para revisão (o tempo corre a partir do clique). */
+  let t0 = null;
+  aviso.addEventListener('click', function () {
+    this.style.background = 'transparent';
+    this.querySelector('.playbtn').hidden = true;
+    this.querySelector('strong').textContent = 'Aqui entra o vídeo do YouTube';
+    this.querySelector('em').textContent = 'Revisão: o tempo do vídeo está sendo simulado';
+    if (t0 === null){ t0 = Date.now(); setInterval(() => atualizarTempo((Date.now() - t0) / 1000), 1000); }
+  });
+}
+const simBtn = document.getElementById('sim');
+if (simBtn) simBtn.addEventListener('click', () => liberar(false));
+</script>
+
+</body>
+</html>
