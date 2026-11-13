@@ -229,6 +229,7 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 .fl select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--accent) 50%),linear-gradient(135deg,var(--accent) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px;background-repeat:no-repeat;padding-right:40px}
 .fl input:focus,.fl select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
 .fl input:user-invalid,.fl select:user-invalid{border-color:var(--hot)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .row2>*{min-width:0}
 .fm .btn{width:100%;margin-top:4px}
@@ -531,6 +532,7 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
         <option>Acima de R$ 1 milhão</option>
       </select>
     </div>
+    <div class="hp" aria-hidden="true"><label for="f-site">Site</label><input id="f-site" name="site" tabindex="-1" autocomplete="off"></div>
     <button type="submit" class="btn open">Quero agendar minha conversa</button>
     <small class="priv">Seus dados são usados só para preparar a conversa.</small>
   </form>
@@ -575,7 +577,9 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 const LIBERA_EM = 17 * 60 + 8;
 let DURACAO = 18 * 60 + 34;     // trocada pela duração real quando o vídeo carrega
 const DESTINO = '#agendar';        // o clique abre o formulário
-const WHATSAPP = '554192869072';   // +55 41 9286-9072, recebe os dados do formulário
+const WHATSAPP = '554192869072';
+// Endereço do Google Apps Script que grava o lead no repositório privado galt-leads. Vazio = não grava.
+const ENDPOINT = '';   // +55 41 9286-9072, recebe os dados do formulário
 const KEY = 'sprint-cta-liberado';
 const ORIGEM = 'Radar Capex';
 const ctas = [...document.querySelectorAll('[data-cta]')];
@@ -625,6 +629,18 @@ tel.addEventListener('input', () => {
 fm.addEventListener('submit', e => {
   e.preventDefault();
   if (!fm.checkValidity()) { fm.reportValidity(); return; }
+  // Grava o lead (repositório privado galt-leads) antes de abrir o WhatsApp.
+  if (ENDPOINT) {
+    const qs = new URLSearchParams(location.search);
+    const val = id => document.getElementById(id).value.trim();
+    const lead = {
+      nome: val('f-nome'), whatsapp: val('f-tel'), email: val('f-email'), segmento: val('f-seg'),
+      faturamento_mensal: val('f-fat'), origem: typeof ORIGEM !== 'undefined' ? ORIGEM : 'Revisão',
+      utm_source: qs.get('utm_source') || '', utm_campaign: qs.get('utm_campaign') || '', utm_content: qs.get('utm_content') || '',
+      pagina: location.pathname, site: val('f-site')
+    };
+    try { fetch(ENDPOINT, {method: 'POST', mode: 'no-cors', keepalive: true, headers: {'Content-Type': 'text/plain;charset=utf-8'}, body: JSON.stringify(lead)}); } catch (err) {}
+  }
   // Envia os dados para o WhatsApp da Galt com a mensagem já preenchida.
   const v = id => document.getElementById(id).value.trim();
   const q = new URLSearchParams(location.search);
@@ -640,17 +656,20 @@ fm.addEventListener('submit', e => {
     '',
     `Origem: ${ORIGEM}${utm ? ' · ' + utm : ''}`,
   ].join('\n');
-  // Grava o cadastro no banco da Amanda (VPS); ela chama o lead na hora.
-  fetch(https://amanda.179-197-80-117.sslip.io/lead, {
-    method: POST, keepalive: true,
-    headers: { Content-Type: application/json },
-    body: JSON.stringify({
-      nome: v(f-nome), telefone: v(f-tel), email: v(f-email),
-      segmento: v(f-seg), faturamento: v(f-fat),
-      origem: /radar/i.test(ORIGEM) ? sprint_radar : sprint_meta,
-      utm: Object.fromEntries(q)
-    })
-  }).catch(() => {});
+  // Grava o cadastro no banco da Amanda (SDR de IA, VPS); ela chama o lead na hora. (Matheus, 13/11)
+  try {
+    const origemPag = typeof ORIGEM !== 'undefined' ? ORIGEM : 'Revisão';
+    fetch('https://amanda.179-197-80-117.sslip.io/lead', {
+      method: 'POST', keepalive: true,
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        nome: v('f-nome'), telefone: v('f-tel'), email: v('f-email'),
+        segmento: v('f-seg'), faturamento: v('f-fat'),
+        origem: /radar/i.test(origemPag) ? 'sprint_radar' : /teste/i.test(origemPag) ? 'sprint_teste' : 'sprint_meta',
+        utm: Object.fromEntries(new URLSearchParams(location.search))
+      })
+    }).catch(() => {});
+  } catch (err) {}
   const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
   document.getElementById('fm-wa').href = url;
   fm.hidden = true; ok.hidden = false;
